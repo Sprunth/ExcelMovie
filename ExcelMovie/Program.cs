@@ -14,23 +14,26 @@ namespace ExcelMovie
     {
         static void Main(string[] args)
         {
+            var outputFile = "test.xlsx";
+
             var vfm = new VideoFrameManager("films/painting");
 
             // delete if exists, always start fresh
-            System.IO.File.Delete("test.xlsx");
-            using (var package = new ExcelPackage(new FileInfo("test.xlsx")))
+            System.IO.File.Delete(outputFile);
+            using (var package = new ExcelPackage(new FileInfo(outputFile)))
             {
-                //var worksheet = package.Workbook.Worksheets.Add("TestPage1");
-                //worksheet.Cells[2, 1].Value = "B1, Bold!";
-                //worksheet.Cells[2, 1].Style.Font.Bold = true;
-                //worksheet.Cells[2, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                //worksheet.Cells[2, 3].Style.Fill.BackgroundColor.SetColor(Color.Orange);
-                //package.Save();
+                var style = package.Workbook.Styles.CreateNamedStyle("BaseStyle");
+                style.Style.Fill.PatternType = ExcelFillStyle.Solid;
 
-                var bitmap = vfm.GetFrame(10);
-                var worksheet2 = package.Workbook.Worksheets.Add("10");
-
-                BitmapToWorksheet.DrawBitmapOnWorksheet(bitmap, worksheet2);
+                foreach (var frameName in vfm.FrameNames.GetRange(11,4))
+                {
+                    Console.WriteLine($"Processing {frameName}");
+                    var bitmap = vfm.GetFrame(frameName);
+                    var worksheet = package.Workbook.Worksheets.Add(frameName);
+                    BitmapToWorksheet.DrawBitmapOnWorksheet(bitmap, worksheet);
+                    bitmap.Dispose();
+                }
+                Console.WriteLine($"Saving to {outputFile}");
                 package.Save();
             }
         }

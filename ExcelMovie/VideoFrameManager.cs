@@ -10,15 +10,15 @@ namespace ExcelMovie
 {
     class VideoFrameManager
     {
-        private List<string> frames;
+        public readonly List<string> FrameNames;
         public VideoFrameManager(string imageFolder)
         {
-            frames = Directory.GetFiles(imageFolder, "*.jpg").ToList();
+            FrameNames = Directory.GetFiles(imageFolder, "*.jpg").ToList();
         }
 
-        public Bitmap GetFrame(int index)
+        public Bitmap GetFrame(string frameName)
         {
-            var bitmap = Image.FromFile(frames[index]) as Bitmap;
+            var bitmap = Image.FromFile(frameName) as Bitmap;
             return bitmap;
         }
     }
