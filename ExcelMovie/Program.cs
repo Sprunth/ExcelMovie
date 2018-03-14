@@ -25,7 +25,7 @@ namespace ExcelMovie
                 var style = package.Workbook.Styles.CreateNamedStyle("BaseStyle");
                 style.Style.Fill.PatternType = ExcelFillStyle.Solid;
 
-                foreach (var frameName in vfm.FrameNames.GetRange(11,4))
+                foreach (var frameName in vfm.FrameNames.GetRange(11,2))
                 {
                     Console.WriteLine($"Processing {frameName}");
                     var bitmap = vfm.GetFrame(frameName);

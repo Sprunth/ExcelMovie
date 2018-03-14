@@ -30,9 +30,11 @@ namespace ExcelMovie
                 worksheet.Column(x+1).Width = 3;
                 for (var y = 0; y < targetHeight; y++)
                 {
-                    worksheet.Cells[y + 1, x + 1].StyleName = "BaseStyle";
+                    var cell = worksheet.Cells[y + 1, x + 1];
+                    cell.StyleName = "BaseStyle";
                     //worksheet.Cells[y+1, x+1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Cells[y+1, x+1].Style.Fill.BackgroundColor.SetColor(colorArray[x,y]);
+                    cell.Style.Fill.BackgroundColor.SetColor(colorArray[x,y]);
+                    //cell.Value = "\u2588";
                 }
                 if (x%40 == 0)
                     Console.WriteLine($"{x}/{targetWidth} Done");
